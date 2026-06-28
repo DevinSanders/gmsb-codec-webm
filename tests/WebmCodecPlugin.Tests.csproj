@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <!-- xunit v3 ships its own in-process test host and runs as a normal
+         executable, so the test project must produce an exe. -->
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Pulls the plugin under test plus the SoundBoard.PluginApi SDK and
+         NEbml transitively. -->
+    <ProjectReference Include="..\src\WebmCodecPlugin.csproj" />
+
+    <!-- The plugin marks both the SDK and NAudio.Core ExcludeAssets="runtime"
+         (the host supplies them live). The test host IS the runtime here, so
+         re-add both with full assets so their DLLs land in the test output. -->
+    <PackageReference Include="SoundBoard.PluginApi" Version="1.0.0-beta.1" />
+    <PackageReference Include="NAudio.Core" Version="2.3.0" />
+
+    <!-- The plugin itself bundles NO Opus decoder (it borrows codec.opus at
+         runtime). The tests stand in for codec.opus with a Concentus-backed
+         stub decoder, and synthesize WebM-Opus fixtures with the Concentus
+         encoder — so Concentus is a TEST-only dependency, matching the
+         version the real codec.opus plugin ships. -->
+    <PackageReference Include="Concentus" Version="2.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.6.0" />
+    <!-- Pinned to 7.2.2 deliberately — FluentAssertions 8.x switched to a
+         paid commercial license. Do NOT upgrade. -->
+    <PackageReference Include="FluentAssertions" Version="7.2.2" />
+  </ItemGroup>
+
+</Project>

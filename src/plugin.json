@@ -1,0 +1,10 @@
+{
+  "publisher": "github.DevinSanders",
+  "id": "codec.webm",
+  "name": "WebM Codec",
+  "version": "1.0.0",
+  "author": "Devin Sanders",
+  "description": "Adds .webm (Matroska / Opus) playback. Demuxes the container in pure-managed code and borrows the Opus decoder from the codec.opus plugin via the host's codec registry.",
+  "entryDll": "WebmCodecPlugin.dll",
+  "isTheme": false
+}

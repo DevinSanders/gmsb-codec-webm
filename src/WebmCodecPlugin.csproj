@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>WebmCodecPlugin</AssemblyName>
+    <RootNamespace>WebmCodecPlugin</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <!-- Default for local dev builds. CI release.yml overrides via
+         `-p:Version=<tag-derived>`; PluginVersion.OfAssembly reads it
+         at runtime. Keep in sync with plugin.json for local builds. -->
+    <Version>1.0.0</Version>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SoundBoard.PluginApi" Version="1.0.0-beta.1" ExcludeAssets="runtime" />
+
+    <!-- NAudio.Core flows in transitively through SoundBoard.PluginApi. The
+         host owns the live NAudio instance; if we shipped our own copy here
+         the WaveStream the host expects from CreateStream would be a
+         different CLR type than ours and casts would fail.
+         ExcludeAssets="runtime" keeps the compile-time reference but strips
+         NAudio.Core.dll from the publish output. -->
+    <PackageReference Include="NAudio.Core" Version="2.3.0" ExcludeAssets="runtime" />
+
+    <!-- NEbml is a pure-managed, low-level EBML reader. It does not parse
+         Matroska semantics — Track / Cluster / Block walking is on us — but
+         it handles the EBML framing (VINT length encoding, element ID
+         parsing, master element nesting) so we don't have to reimplement
+         it. MIT, pure-managed (no native libs), keeps the "no platform
+         RID matrix" promise this whole plugin family makes.
+
+         IMPORTANT: Opus decoding is NOT bundled here. We borrow it at
+         CreateStream time from the installed codec.opus plugin via
+         IPluginContext.CodecRegistry.GetByExtension(".opus")?.CreateDecoder().
+         See WebmCodecPlugin.cs for the full handshake. -->
+    <PackageReference Include="NEbml" Version="1.1.0.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="plugin.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
