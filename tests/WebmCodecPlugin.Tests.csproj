@@ -26,7 +26,7 @@
          stub decoder, and synthesize WebM-Opus fixtures with the Concentus
          encoder — so Concentus is a TEST-only dependency, matching the
          version the real codec.opus plugin ships. -->
-    <PackageReference Include="Concentus" Version="2.2.2" />
+    <PackageReference Include="Concentus" Version="2.2.3" />
   </ItemGroup>
 
   <ItemGroup>
