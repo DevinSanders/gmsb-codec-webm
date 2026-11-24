@@ -36,7 +36,7 @@
          CreateStream time from the installed codec.opus plugin via
          IPluginContext.CodecRegistry.GetByExtension(".opus")?.CreateDecoder().
          See WebmCodecPlugin.cs for the full handshake. -->
-    <PackageReference Include="NEbml" Version="1.1.0.5" />
+    <PackageReference Include="NEbml" Version="1.1.1.10" />
   </ItemGroup>
 
   <ItemGroup>
