@@ -23,7 +23,7 @@
          different CLR type than ours and casts would fail.
          ExcludeAssets="runtime" keeps the compile-time reference but strips
          NAudio.Core.dll from the publish output. -->
-    <PackageReference Include="NAudio.Core" Version="2.3.0" ExcludeAssets="runtime" />
+    <PackageReference Include="NAudio.Core" Version="3.3.0" ExcludeAssets="runtime" />
 
     <!-- NEbml is a pure-managed, low-level EBML reader. It does not parse
          Matroska semantics — Track / Cluster / Block walking is on us — but
